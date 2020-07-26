@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Ámbitos{% endblock %}
+{% block content %}
+    <div>
+        <h2 class="ui header floated left">
+            <i class="medkit icon"></i>
+            <div class="content">Ámbitos
+                <div class="sub header">
+                    Listado Ámbitos para la acreditación en Salud: Atención Abierta
+                </div>
+            </div>
+        </h2>
+        <div class="ui divider clearing"></div>
+        <div class="ui cards">
+            {% for ambito in ambito_list %}
+                <div class="card">
+                    <div class="content">
+                        <div class="header">{{ ambito.nombre }}</div>
+                        <div class="description">
+                            {{ ambito.descripcion|safe }}
+                        </div>
+                    </div>
+                <div class="extra content">
+                        <div class="right floated author">
+                            <strong style="color: black">
+                                {% if ambito.encargado != null %}
+                                    {{ ambito.encargado }}
+                                {% else %}
+                                    Sin encargado
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    <a 
+                    href="{% url 'ambitos:ambito' ambito.id ambito.nombre|slugify %}"
+                    class="ui bottom primary attached button">
+                        <i class="sticky note icon"></i>
+                        Ver Ámbito: {% if ambito.sigla != null  %}
+                        <strong>{{ ambito.sigla }}</strong>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

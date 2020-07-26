@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ caracteristica.nombre }}{% endblock %}
+{% block content %}
+    <div>
+        <h2 class="ui header floated left">
+            <i class="medkit icon"></i>
+            <div class="content">{{ caracteristica.nombre }}
+                <div class="sub header">Listado Caracteristicas</div>
+            </div>
+        </h2>
+        <div class="ui divider clearing"></div>
+        <br>
+        <div class="ui cards">
+            {% for caracteristica in caracteristica_listado %}
+                <div class="ui card">
+                    <div class="content">
+                        <div class="header">
+                            {{ caracteristica.nombre }}
+                        </div>
+                        {% if caracteristica.tipo != null %}
+                        {% if caracteristica.tipo == 'OBLIGATORIA'%}
+                        <div class="meta">
+                            <strong class="category" style="color:crimson" >
+                                {{ caracteristica.tipo }}
+                            </strong>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        <div class="description">
+                            <p>
+                                {{ caracteristica.descripcion|safe }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div style="color: teal" class="left floated author">
+                            {{ caracteristica.fecha }}
+                        </div>
+                        <div class="right floated author">
+                            <strong style="color: black">
+                                {% if caracteristica.encargado != null %}
+                                    {{ caracteristica.encargado }}
+                                {% else %}
+                                    Sin encargado
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    <a 
+                    href="{% url 'caracteristicas:caracteristica' caracteristica.id caracteristica.nombre|slugify %}"
+                    class="ui bottom teal attached button">
+                        <i class="sticky note icon"></i>
+                        Ver Documentos:
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

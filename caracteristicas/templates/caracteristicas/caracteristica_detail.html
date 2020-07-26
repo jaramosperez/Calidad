@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ caracteristica.nombre }}{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'core/css/dataTables.semanticui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/all.min.css' %}">
+{% endblock link %}
+{% block content %}
+    <div>
+        <h2 class="ui header floated left">
+            <i class="medkit icon"></i>
+            <div class="content">{{ caracteristica.nombre }}
+                <div class="sub header">Listado Documentos</div>
+            </div>
+        </h2>
+        <div class="ui divider clearing"></div>
+        <div>
+            <h3 class="ui header floated left">
+                <div class="content">
+                </div>
+            </h3>
+            <div>
+                <table id="documento_listado" class="ui celled very compact table bordered striped">
+                    <thead>
+                    <tr>
+                        <th>ACCIONES</th>
+                        <th>TIPO DOCUMENTO</th>
+                        <th>VERSION</th>
+                        <th>FECHA</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for documento in documento_listado %}
+                        <tr>
+                            <td style="width: 27%">
+                                <a class="ui tiny labeled icon teal button"
+                                   href="#">
+                                    <i class="download icon"></i> {{ documento.tipo }}
+                                </a>
+
+                                {% if request.user.is_staff %}
+                                    <a class="ui tiny icon yellow button"
+                                       href="#">
+                                        <i class="icon edit"></i>
+                                    </a>
+                                    <a class="ui tiny icon red button"
+                                       href="#">
+                                        <i class="icon trash"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td >{{ documento.tipo }}</td>
+                            <td style="width: 10%">{{ documento.version|stringformat:".1f"}}</td>
+                            <td>{{ documento.fecha_documento }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+    <script src="{% static 'core/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'core/js/dataTables.semanticui.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#documento_listado').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                },
+            });
+        });
+    </script>
+{% endblock scripts %}
